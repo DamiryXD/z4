@@ -79,7 +79,7 @@ template <typename STyp, int SWymiar>
 
                 A[j][k] = A[j][i] / A[i][i] * A[i][k] -A[j][k];
     
-    det=A[1][1];
+    det=A[0][0];
     for (int i = 0; i < ROZMIAR-1; i++)
         det = A[i+1][i+1]* det;
     if (det ==0)
