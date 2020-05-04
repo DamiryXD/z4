@@ -4,6 +4,7 @@
 #include "SWektor.hh"
 #include "SMacierz.hh"
 #include "rozmiar.h"
+#include <iomanip>
 
 
 template <typename STyp, int SWymiar>
@@ -30,6 +31,20 @@ class SUkladRownanLiniowych
     return A;
   }
 };
+
+
+/*
+* Metoda rozwiazujaca uklad rownan liniowych, rozwiazanie jest wyswietlane przy pomocy przeciazonego strumienia wyjscia
+* Prerekwizyty: Wczytana poprawnie Macierz oraz Wektor Wyrazow Wolnych
+*              - Poprawne zainicjowanie szablonu <typename STyp, int SWymiar> z argumentami:
+*              - Styp - Rodzaj operowanej zmiennej. Dopuszczalne typy to liczba zmienno przecinkowa typu double lub liczba zespolona
+*              - SWymiar - Wymiar operowanej macierzy typu liczba całkowita 
+* Argumenty: 
+*  ----
+* Zwraca:
+*   ---
+*/
+
 template <typename STyp, int SWymiar>
   void SUkladRownanLiniowych<STyp,SWymiar>:: RozwiazUkladRownan ()
   {
@@ -44,15 +59,39 @@ template <typename STyp, int SWymiar>
     std::cout<<std::endl;
   }
 
+  /*
+* Metoda obliczajaca blad rozwiazania ukladu rownan liniowych, rozwiazanie jest wyswietlane przy pomocy przeciazonego strumienia wyjscia
+* Prerekwizyty: Wczytana poprawnie Macierz, Wektor Wyrazow Wolnych oraz obliczone rozwiązanie ukladu rownan.
+*              - Poprawne zainicjowanie szablonu <typename STyp, int SWymiar> z argumentami:
+*              - Styp - Rodzaj operowanej zmiennej. Dopuszczalne typy to liczba zmienno przecinkowa typu double lub liczba zespolona
+*              - SWymiar - Wymiar operowanej macierzy typu liczba całkowita 
+* Argumenty: 
+* -----
+* Zwraca:
+*   ---
+*/
+
 template <typename STyp, int SWymiar>
   void SUkladRownanLiniowych<STyp,SWymiar>::WyliczBladRozwiazania ()
   {
         std::cout<<"Wektor bledu:"<<std::endl;
         SWektor<STyp,SWymiar> blad= A*this->Rozwiazanie - B;
         std::cout.setf(std::ios::showpoint);
-        std::cout<< blad;
+        std::cout<<std::scientific<<std::setprecision(2)<< blad;
         std::cout.setf(std::ios::showpoint);
   }
+    /*
+* Przeciążenie operatora wejscia dla Ukladu rownanLiniowych
+* Prerekwizyty: Poprawne zainicjowanie szablonu <typename STyp, int SWymiar> z argumentami:
+*              - Styp - Rodzaj operowanej zmiennej. Dopuszczalne typy to liczba zmienno przecinkowa typu double lub liczba zespolona
+*              - SWyciar - Wymiar operowanej macierzy typu liczba całkowita 
+* Argumenty:
+*   Strm- strumien wejscia
+*   UklRown - Uklad rownan skladajacy sie z macierzy,wektora wyrazow wolnych oraz wektora rozwiazania
+* Zwraca:
+*   Strumien wejscia
+*/
+
 template <typename STyp, int SWymiar>
 std::istream &operator>>(std::istream &Strm, SUkladRownanLiniowych<STyp,SWymiar> &UklRown)
 {
@@ -60,6 +99,17 @@ std::istream &operator>>(std::istream &Strm, SUkladRownanLiniowych<STyp,SWymiar>
   Strm>>UklRown.Get_wektor();
   return Strm;
 }
+/*
+* Przeciążenie operatora wyjscia dla Ukladu rownanLiniowych
+* Prerekwizyty: Poprawne zainicjowanie szablonu <typename STyp, int SWymiar> z argumentami:
+*              - Styp - Rodzaj operowanej zmiennej. Dopuszczalne typy to liczba zmienno przecinkowa typu double lub liczba zespolona
+*              - SWyciar - Wymiar operowanej macierzy typu liczba całkowita 
+* Argumenty:
+*   Strm- strumien wyjscia
+*   UklRown - Uklad rownan skladajacy sie z macierzy,wektora wyrazow wolnych oraz wektora rozwiazania
+* Zwraca:
+*   Strumien wyjscia
+*/
 template <typename STyp, int SWymiar>
 std::ostream &operator<<(std::ostream &Strm, const SUkladRownanLiniowych<STyp,SWymiar> &UklRown)
 {
